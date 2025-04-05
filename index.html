@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mc_modder</title>
+    <style>
+      @font-face {
+        font-family: "CozetteVector";
+        src: url("fonts/CozetteVector.ttf");
+      }
+      @font-face {
+        font-family: "editUndo";
+        src: url("fonts/editundo.ttf");
+      }
+
+      body {
+        font-family: "CozetteVector", monospace;
+        background-color: #f0ead6; /* Light beige background */
+        color: #4a3c30; /* Darker beige text */
+        margin: 0;
+        padding: 20px;
+        line-height: 1.4;
+      }
+
+      .header {
+        text-align: center;
+        font-family: "editUndo", monospace;
+        margin-bottom: 20px;
+        color: #2e8b57; /* Sea green header */
+      }
+
+      .portfolio-container {
+        max-width: 800px;
+        margin: 20px auto;
+      }
+
+      .portfolio-item {
+        border: 2px dotted #b8860b; /* Dark goldenrod dotted border */
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #fffaf0; /* Light ivory item background */
+        border-radius: 0;
+        text-align: left;
+      }
+
+      .portfolio-item img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .portfolio-item h2 {
+        font-size: 1.2em;
+        margin-top: 0;
+        color: #8b4513; /* Saddle brown titles */
+      }
+
+      .portfolio-item p {
+        font-size: 1em;
+      }
+
+      .portfolio-item a {
+        color: #a0522d; /* Sienna links */
+        text-decoration: underline;
+      }
+
+      .badges-container {
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .badges-container img {
+        margin: 0 10px;
+        max-height: 50px;
+      }
+
+      @media (max-width: 600px) {
+        .portfolio-container {
+          padding: 10px;
+        }
+
+        .portfolio-item {
+          padding: 10px;
+        }
+      }
+      .copyright {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #696969; /* Dim gray copyright */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>mc_modder</h1>
+    </div>
+
+    <div class="portfolio-container">
+      <div class="portfolio-item">
+        <img src="imgs/projects/fib.png" alt="Image not loaded!" />
+        <h2>fib</h2>
+        <p>
+          fib is a lightning fast calculator that calulates numbers in the
+          Fibonacci Sequence.
+          <a href="https://github.com/mcmodder123/fib" target="_blank"
+            >View Project</a
+          >
+        </p>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="imgs/projects/retroarch.png" alt="Image not loaded!" />
+        <h2>RetroArch</h2>
+        <p>
+          RetroArch is an Arch Linux based linux distribution I made that was
+          designed to mimic the look of an old unix workstation.
+          <a href="https://github.com/mcmodder123/retroarch" target="_blank"
+            >View Project</a
+          >
+        </p>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="imgs/projects/primegen.png" alt="Image not loaded!" />
+        <h2>primegen</h2>
+        <p>
+          primegen is a program that generates prime numbers and is specialized
+          to be quick.
+          <a href="https://github.com/mcmodder123/primegen" target="_blank"
+            >View Project</a
+          >
+        </p>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="imgs/projects/sinewave.png" alt="Image not loaded!" />
+        <h2>Sine Wave</h2>
+        <p>
+          This program displays a sine wave to the screen.
+          <a href="https://github.com/mcmodder123/sinewave" target="_blank"
+            >View Project</a
+          >
+        </p>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="imgs/projects/primegengui.png" alt="Image not loaded!" />
+        <h2>primegen-GUI</h2>
+        <p>
+          A graphical version of primegen.
+          <a href="https://github.com/mcmodder123/primegen-gui" target="_blank"
+            >View Project</a
+          >
+        </p>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="imgs/projects/sqrt.png" alt="Image not loaded!" />
+        <h2>SQRT</h2>
+        <p>
+          SQRT is a program that uses the Newton Raphson method to approximate
+          square roots and compares it to cmath's implementation.
+          <a href="https://github.com/mcmodder123/sqrt" target="_blank"
+            >View Project</a
+          >
+        </p>
+      </div>
+
+      <div class="portfolio-item">
+        <img src="imgs/projects/neovim.png" alt="Image not loaded!" />
+        <h2>Neovim Configuration</h2>
+        <p>
+          This is my neovim configuration.
+          <a href="https://github.com/mcmodder123/nvimcfg" target="_blank"
+            >View Project</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <div class="copyright">(C) mc_modder 2025</div>
+
+    <div class="badges-container">
+      <img src="imgs/badges/neovim.gif" alt="Neovim Badge" />
+      <img src="imgs/badges/linux-p.gif" alt="Linux Badge" />
+      <img src="imgs/badges/ilikecomputer.png" alt="I Like Computer Badge" />
+    </div>
+  </body>
+</html>
