@@ -1,170 +1,290 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mc_modder</title>
     <style>
-      @font-face {
-        font-family: "CozetteVector";
-        src: url("fonts/CozetteVector.ttf");
-      }
-      @font-face {
-        font-family: "editUndo";
-        src: url("fonts/editundo.ttf");
-      }
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, monospace;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: #0a0a0a;
+        }
 
-      body {
-        font-family: "CozetteVector", monospace;
-        background-color: #f0ead6; /* Light beige background */
-        color: #4a3c30; /* Dark beige text */
-        margin: 0;
-        padding: 20px;
-        line-height: 1.4;
-      }
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(180, 150, 0, 0.5) 0%, transparent 70%),
+                radial-gradient(circle at 80% 20%, rgba(180, 120, 0, 0.5) 0%, transparent 70%),
+                radial-gradient(circle at 50% 50%, rgba(150, 180, 0, 0.5) 0%, transparent 70%),
+                radial-gradient(circle at 10% 20%, rgba(180, 0, 150, 0.5) 0%, transparent 70%),
+                radial-gradient(circle at 90% 90%, rgba(0, 150, 180, 0.5) 0%, transparent 70%),
+                linear-gradient(135deg, #1a1a1a, #0a0a0a);
+            background-blend-mode: screen;  
+            filter: blur(80px); 
+            z-index: -3; 
+            animation: moveBackground 30s infinite alternate linear;
+        }
 
-      .header {
-        text-align: center;
-        font-family: "editUndo", monospace;
-        margin-bottom: 20px;
-        color: #2e8b57; /* Sea green header */
-      }
+        @keyframes moveBackground {
+            from {
+                transform: translate(0, 0);
+            }
+            to {
+                transform: translate(5%, 5%);
+            }
+        }
+        
+        #grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 1) 2px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 1) 2px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            pointer-events: none;
+        }
 
-      .portfolio-container {
-        max-width: 800px;
-        margin: 20px auto;
-      }
+        #mouse-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 5px;
+            background: transparent;
+            box-shadow: 0 0 40px 30px rgba(255, 215, 0, 1.0);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+        }
 
-      .portfolio-item {
-        border: 2px dotted #b8860b; /* Dark goldenrod dotted border */
-        padding: 15px;
-        margin-bottom: 20px;
-        background-color: #fffaf0; /* Light ivory item background */
-        border-radius: 0;
-        text-align: left;
-      }
+        .main-content-wrapper {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 0;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-      .portfolio-item img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin-bottom: 10px;
-      }
+        .header {
+            text-align: center;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #FFD700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
 
-      .portfolio-item h2 {
-        font-size: 1.2em;
-        margin-top: 0;
-        color: #8b4513; /* Saddle brown titles */
-      }
-
-      .portfolio-item p {
-        font-size: 1em;
-      }
-
-      .portfolio-item a {
-        color: #a0522d; /* Sienna links */
-        text-decoration: underline;
-      }
-
-      .badges-container {
-        text-align: center;
-        margin-top: 30px;
-      }
-
-      .badges-container img {
-        margin: 0 10px;
-        max-height: 50px;
-      }
-
-      @media (max-width: 600px) {
         .portfolio-container {
-          padding: 10px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+            flex-grow: 1;
         }
 
         .portfolio-item {
-          padding: 10px;
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            padding: 0;
+            background-color: rgba(42, 42, 42, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
         }
-      }
-      .copyright {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 0.9em;
-        color: #696969; /* Dim gray copyright */
-      }
+
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+            background-color: rgba(50, 50, 50, 0.6);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8), 0 8px 20px rgba(0, 0, 0, 0.5);
+            border-color: #FFFACD;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .portfolio-item .content {
+            padding: 20px;
+            text-align: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-item h2 {
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #FFD700;
+        }
+
+        .portfolio-item p {
+            font-size: 1em;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .portfolio-item a {
+            color: #FFFACD;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .portfolio-item a:hover {
+            color: #FFFFE0;
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.85em;
+            color: #aaa;
+            padding-bottom: 20px;
+        }
+        .footer a {
+            color: #FFFACD;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease-in-out;
+        }
+        .footer a:hover {
+            color: #FFFFE0;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 10px;
+            }
+            .portfolio-container {
+                grid-template-columns: 1fr;
+                padding: 0 10px;
+            }
+            .header {
+                font-size: 2em;
+                margin-bottom: 30px;
+            }
+            .badges-container img {
+                margin: 0 8px;
+                max-height: 40px;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div class="header">
-      <h1>mc_modder</h1>
+</head>
+<body>
+
+    <div id="bg"></div>
+    <div id="grid-overlay"></div>
+    <div id="mouse-glow"></div>
+
+    <div class="main-content-wrapper">
+        <div class="header">
+            <h2>mc_modder</h2>
+        </div>
+
+        <div class="portfolio-container">
+            <div class="portfolio-item">
+                <img src="imgs/projects/mandelbrot.png" alt="Image not loaded!" />
+                <div class="content">
+                    <h2>mandelbrot</h2>
+                    <p>This is a program I made in Rust that generates images of the Mandelbrot fractal.</p>
+                    <a href="https://github.com/mcmodder123/mandelbrot" target="_blank">View Project</a>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img src="imgs/projects/cube.png" alt="Image not loaded!" />
+                <div class="content">
+                    <h2>cube</h2>
+                    <p>A cool little program I wrote that displays a rotating cube in your terminal.</p>
+                    <a href="https://github.com/mcmodder123/cube.c" target="_blank">View Project</a>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img src="imgs/projects/fib.png" alt="Image not loaded!" />
+                <div class="content">
+                    <h2>fib</h2>
+                    <p>fib is a lightning fast calculator for numbers in the Fibonacci Sequence.</p>
+                    <a href="https://github.com/mcmodder123/fib" target="_blank">View Project</a>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img src="imgs/projects/ant_simulation.png" alt="Image not loaded!" />
+                <div class="content">
+                    <h2>Ant Simulation</h2>
+                    <p>This is a program that I made in C++ which attempts to simulate ant-like cells on a grid.</p>
+                    <a href="https://github.com/mcmodder123/ant_simulation" target="_blank">View Project</a>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img src="imgs/projects/ascii.png" alt="Image not loaded!" />
+                <div class="content">
+                    <h2>vid_to_ascii</h2>
+                    <p>A command-line tool written in Rust to convert video files into ASCII art and play them directly in your terminal.</p>
+                    <a href="https://github.com/mcmodder123/vid_to_ascii" target="_blank">View Project</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">(C) mc_modder 2025<br><a href="https://github.com/mcmodder123">My Github</a></div>
     </div>
+    
+    <script>
+        const glow = document.getElementById('mouse-glow');
+        
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            glow.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+            glow.style.opacity = 1;
+        });
 
-    <div class="portfolio-container">
-      <div class="portfolio-item">
-        <img src="imgs/projects/mandelbrot.png" alt="Image not loaded!" />
-        <h2>mandelbrot</h2>
-        <p>
-          This is a program I made in Rust that generates images of the
-          Mandelbrot fractal.
-          <a href="https://github.com/mcmodder123/mandelbrot" target="_blank"
-            >View Project</a
-          >
-        </p>
-      </div>
-
-      <div class="portfolio-item">
-        <img src="imgs/projects/cube.png" alt="Image not loaded!" />
-        <h2>cube</h2>
-        <p>
-          A cool little program I wrote that displays a rotating cube in your
-          terminal.
-          <a href="https://github.com/mcmodder123/cube.c" target="_blank"
-            >View Project</a
-          >
-        </p>
-      </div>
-
-      <div class="portfolio-item">
-        <img src="imgs/projects/fib.png" alt="Image not loaded!" />
-        <h2>fib</h2>
-        <p>
-          fib is a lightning fast calculator for numbers in the
-          Fibonacci Sequence.
-          <a href="https://github.com/mcmodder123/fib" target="_blank"
-            >View Project</a
-          >
-        </p>
-      </div>
-
-      <div class="portfolio-item">
-        <img src="imgs/projects/ant_simulation.png" alt="Image not loaded!" />
-        <h2>Ant Simulation</h2>
-        <p>
-          This is a program that I made in C++ which attempts to simulate ant-like cells on a grid.
-          <a href="https://github.com/mcmodder123/ant_simulation" target="_blank"
-          >View Project</a
-          >
-        </p>
-      </div>
-
-      <div class="portfolio-item">
-        <img src="imgs/projects/ascii.png" alt="Image not loaded!" />
-        <h2>vid_to_ascii</h2>
-        <p>
-          A command-line tool written in Rust to convert video files into ASCII art and play them directly in your terminal.
-          <a href="https://github.com/mcmodder123/vid_to_ascii" target="_blank"
-            >View Project</a
-          >
-        </p>
-      </div>
-
-    </div>
-
-    <div class="copyright">(C) mc_modder 2025</div>
-
-    <div class="badges-container">
-      <img src="imgs/badges/neovim.gif" alt="Neovim Badge" />
-      <img src="imgs/badges/linux-p.gif" alt="Linux Powered Badge" />
-      <img src="imgs/badges/ilikecomputer.png" alt="I Like Computer Badge" />
-    </div>
-  </body>
+        document.body.addEventListener('mouseleave', () => {
+            glow.style.opacity = 0;
+        });
+    </script>
+</body>
 </html>
+
